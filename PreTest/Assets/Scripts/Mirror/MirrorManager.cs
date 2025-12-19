@@ -16,6 +16,10 @@ public class MirrorManager : MonoBehaviour
     [Header("하이라이트")]
     public Color highlightColor = Color.yellow;
 
+    [Header("지면 설정")]
+    public Transform groundA; // 첫 번째 바닥
+    public Transform groundB; // 두 번째 바닥 (벽)
+
     private GameObject selectedMirror;
     private GameObject draggingMirror;
     private Color originalColor;
@@ -134,7 +138,7 @@ public class MirrorManager : MonoBehaviour
     {
         if (selectedMirror == null) return;
 
-        // Spacebar 키 입력 시 Mirror 55도 회전
+        // Spacebar 키 입력 시 Mirror는 두 Ground 각도의 절반으로 회전
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             ToggleMirrorRotationX();
@@ -148,13 +152,23 @@ public class MirrorManager : MonoBehaviour
         }
     }
 
+    // Ground 간 각도에 따라 Mirror 회전 각도 조정
     private void ToggleMirrorRotationX()
     {
-        // 현재 로컬 X 회전값을 확인 (0~360 범위 고려)
-        float currentX = selectedMirror.transform.localEulerAngles.x;
-        // 55도 근처라면 0으로, 아니면 55로 토글
-        float targetX = Mathf.Abs(currentX - 55f) < 0.1f ? 0f : 55f;
+        // 각 지면의 로컬 X 회전값의 절댓값을 가져옴
+        float rotA = Mathf.Abs(groundA.localEulerAngles.x);
+        float rotB = Mathf.Abs(groundB.localEulerAngles.x);
 
+        // 두 절댓값의 합의 절반을 계산
+        float calculatedHalfAngle = (rotA + rotB) / 2f;
+
+        // 3. 현재 거울의 상태 확인 및 토글
+        float currentX = selectedMirror.transform.localEulerAngles.x;
+
+        // 유니티 오일러 각도는 360도를 넘어가면 보정되므로 0.1f 오차 범위로 체크
+        float targetX = (Mathf.Abs(currentX - calculatedHalfAngle) < 0.1f) ? 0f : calculatedHalfAngle;
+
+        // 4. 회전 적용
         Vector3 currentRot = selectedMirror.transform.localEulerAngles;
         selectedMirror.transform.localRotation = Quaternion.Euler(targetX, currentRot.y, currentRot.z);
     }

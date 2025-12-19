@@ -49,17 +49,16 @@ public class LaserController : MonoBehaviour
                     // 다음 레이의 시작점은 현재 충돌 지점
                     currentPos = hit.point + currentDir * 0.01f;
                 }
-                // 2. 거울이 아닐 경우 (벽 혹은 리시버)
                 else
                 {
-                    // [추가된 로직] 부딪힌 물체에 LaserReceiver 컴포넌트가 있는지 확인
+                    // 부딪힌 물체에 LaserReceiver 컴포넌트가 있는지 확인
                     LaserReceiver receiver = hit.collider.GetComponent<LaserReceiver>();
                     if (receiver != null)
                     {
                         receiver.Activate(); // Receiver 빨간색으로 변경
                     }
 
-                    // 거울이 아니면 여기서 레이저 종료
+                    // Mirror가 아니면 여기서 레이저 종료
                     break;
                 }
             }

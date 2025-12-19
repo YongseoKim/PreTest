@@ -172,6 +172,8 @@ MonoBehaviour:
   doubleClickThreshold: 0.3
   rotationZoneWidth: 0.3
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  groundA: {fileID: 171660914}
+  groundB: {fileID: 1880596087}
 --- !u!1 &163671245
 GameObject:
   m_ObjectHideFlags: 0
