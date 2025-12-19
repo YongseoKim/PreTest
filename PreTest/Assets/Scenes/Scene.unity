@@ -164,11 +164,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorSpawner
   mirrorPrefab: {fileID: 7335509556109147236, guid: 39ccb061f3420bb43a756d5a3d22fee3, type: 3}
-  yOffset: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   rotationThreshold: 0.3
+  doubleClickThreshold: 2
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &163671245
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +293,7 @@ GameObject:
   - component: {fileID: 171660913}
   - component: {fileID: 171660912}
   - component: {fileID: 171660911}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -833,6 +834,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraMoveManager
   moveSpeed: 10
+  lookSensitivity: 0.2
+  minPitch: -80
+  maxPitch: 80
 --- !u!1 &340329574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,7 +2232,7 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  maxReflections: 5
+  maxReflections: 10
 --- !u!1 &1276023848
 GameObject:
   m_ObjectHideFlags: 0
@@ -2600,6 +2604,7 @@ GameObject:
   - component: {fileID: 1787954705}
   - component: {fileID: 1787954704}
   - component: {fileID: 1787954703}
+  - component: {fileID: 1787954706}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -2699,6 +2704,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787954701}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1787954706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787954701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a18d398270ef2e419be013bc55b1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LaserReceiver
+  activeColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1880596086
 GameObject:
   m_ObjectHideFlags: 0
@@ -2711,7 +2729,7 @@ GameObject:
   - component: {fileID: 1880596090}
   - component: {fileID: 1880596089}
   - component: {fileID: 1880596088}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
