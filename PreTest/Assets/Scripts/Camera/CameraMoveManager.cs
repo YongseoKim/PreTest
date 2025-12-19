@@ -16,7 +16,7 @@ public class CameraMoveManager : MonoBehaviour
 
     void Start()
     {
-        // 시작할 때 현재 카메라의 회전 값을 초기화합니다.
+        // 시작할 때 현재 카메라의 회전 값 초기화
         Vector3 rot = transform.localRotation.eulerAngles;
         rotationX = rot.x;
         rotationY = rot.y;
@@ -45,22 +45,16 @@ public class CameraMoveManager : MonoBehaviour
 
     void RotateCamera()
     {
-        // 1. 오른쪽 마우스 버튼이 눌려 있는 동안에만 회전
+        // 마우스 오른쪽 버튼으로 회전
         if (Mouse.current.rightButton.isPressed)
         {
-            // 마우스 델타 값(움직인 양) 가져오기
+            // 마우스 델타 값 가져오기
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
-            // 2. 마우스 움직임에 따른 회전 값 계산
-            // 좌우 회전 (Y축 기준 회전)
+            // 마우스 움직임에 따른 회전값 계산
             rotationY += mouseDelta.x * lookSensitivity;
-            // 상하 회전 (X축 기준 회전, 마우스를 올리면 각도가 줄어들어야 위를 봄)
             rotationX -= mouseDelta.y * lookSensitivity;
-
-            // 3. 상하 회전 각도 제한 (Clamping)
             rotationX = Mathf.Clamp(rotationX, minPitch, maxPitch);
-
-            // 4. 회전 적용
             transform.localRotation = Quaternion.Euler(rotationX, rotationY, 0f);
         }
     }

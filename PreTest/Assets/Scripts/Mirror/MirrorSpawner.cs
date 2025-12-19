@@ -78,7 +78,7 @@ public class MirrorSpawner : MonoBehaviour
             DeleteSelectedMirror();
     }
 
-    // [더블 클릭 시 호출되는 생성 로직]
+    // 더블 클릭 시 Mirror 호출되는 생성 로직
     void SpawnMirrorAtMouse()
     {
         Ray ray = mainCam.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -94,10 +94,8 @@ public class MirrorSpawner : MonoBehaviour
 
             GameObject newMirror = Instantiate(mirrorPrefab, spawnPos, spawnRotation);
 
-            // 생성 직후 해당 거울을 바로 선택(하이라이트) 상태로 만듭니다.
+            // 생성 직후 해당 거울을 바로 하이라이트로 지정
             SetHighlight(newMirror);
-
-            Debug.Log("더블 클릭으로 거울이 생성되었습니다.");
         }
     }
 
@@ -106,7 +104,7 @@ public class MirrorSpawner : MonoBehaviour
         Ray ray = mainCam.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // 거울(부모 혹은 자식) 클릭 여부 확인
+            // Mirror 클릭 여부 확인
             Transform targetTransform = hit.collider.transform;
             while (targetTransform != null && !targetTransform.name.Contains("Mirror"))
             {

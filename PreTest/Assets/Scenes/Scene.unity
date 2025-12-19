@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 37213373}
-  - component: {fileID: 37213374}
+  - component: {fileID: 37213375}
   m_Layer: 0
   m_Name: MirrorManager
   m_TagString: Untagged
@@ -151,7 +151,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &37213374
+--- !u!114 &37213375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,15 +160,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 37213372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7767725c5187d334bb6c3d9a5e7f99d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 744fb0934f22ab14bae51ea4ab948847, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MirrorSpawner
+  m_EditorClassIdentifier: Assembly-CSharp::MirrorManager
   mirrorPrefab: {fileID: 7335509556109147236, guid: 39ccb061f3420bb43a756d5a3d22fee3, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  rotationThreshold: 0.3
-  doubleClickThreshold: 2
+  surfaceOffset: 0.01
+  rotationSensitivity: 0.5
+  doubleClickThreshold: 0.3
+  rotationZoneWidth: 0.3
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &163671245
 GameObject:

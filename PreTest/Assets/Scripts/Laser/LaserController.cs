@@ -8,7 +8,7 @@ public class LaserController : MonoBehaviour
     [Header("Laser Settings")]
     public float maxDistance = 100f;
     public LayerMask hitLayers;
-    public int maxReflections = 10;   // 최대 반사 횟수 (무한 루프 방지)
+    public int maxReflections = 10;   // 최대 반사 횟수
 
     void Start()
     {
@@ -46,7 +46,7 @@ public class LaserController : MonoBehaviour
                 {
                     // Vector3.Reflect를 사용하여 반사 벡터 계산
                     currentDir = Vector3.Reflect(currentDir, hit.normal);
-                    // 다음 레이의 시작점은 현재 충돌 지점 (살짝 띄워주어 자기 자신 충돌 방지)
+                    // 다음 레이의 시작점은 현재 충돌 지점
                     currentPos = hit.point + currentDir * 0.01f;
                 }
                 // 2. 거울이 아닐 경우 (벽 혹은 리시버)
@@ -56,7 +56,7 @@ public class LaserController : MonoBehaviour
                     LaserReceiver receiver = hit.collider.GetComponent<LaserReceiver>();
                     if (receiver != null)
                     {
-                        receiver.Activate(); // 리시버 활성화 (빨간색 변경)
+                        receiver.Activate(); // Receiver 빨간색으로 변경
                     }
 
                     // 거울이 아니면 여기서 레이저 종료
