@@ -67,7 +67,9 @@ Ground에 여러 Mirror를 생성해 레이저가 Receiver에 닿게 해 **Recei
 - 컴포넌트 위치: [Hierarchy] Receiver > Sphere
 
 ## 플레이 성공 모습
-<img width="2841" height="1382" alt="FinalSuccess" src="https://github.com/user-attachments/assets/7162017f-252e-4edc-8adc-ea961ac570ef" />
+<img width="2879" height="1601" alt="Deepfine" src="https://github.com/user-attachments/assets/9f7f3bd4-4433-46aa-bc18-1a7bccf43bae" />
+
+[Youtube 링크 - 동영상 링크로만 공유](https://youtu.be/Ia2_YuT27gE)
 
 
 
