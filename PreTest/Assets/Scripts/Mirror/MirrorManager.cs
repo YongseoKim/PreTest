@@ -91,7 +91,7 @@ public class MirrorManager : MonoBehaviour
 
                 if (isTilted)
                 {
-                    isRotatingMode = false; // 55도일 때는 회전 불가
+                    isRotatingMode = false; // 누운 상태일 때는 회전 불가
                 }
                 else
                 {
