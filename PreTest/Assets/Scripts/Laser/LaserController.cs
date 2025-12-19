@@ -1,22 +1,18 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LaserController : MonoBehaviour
 {
     private LineRenderer line;
 
     [Header("Laser Settings")]
-    public float maxDistance = 100f; // 레이저가 뻗어나갈 최대 거리
-    public LayerMask hitLayers;      // 충돌 검사할 레이어 (Wall 등)
+    public float maxDistance = 100f;
+    public LayerMask hitLayers;
+    public int maxReflections = 5;   // 최대 반사 횟수 (무한 루프 방지)
 
     void Start()
     {
         line = GetComponent<LineRenderer>();
-
-        // 레이저 선의 시작점과 끝점 개수 설정
-        line.positionCount = 2;
-
-        // Line Renderer의 좌표계를 World가 아닌 Local로 설정하면 관리가 더 편합니다.
-        // 하지만 이미 월드 좌표를 사용 중이라면 아래 ShootLaser 함수에서 처리합니다.
         line.useWorldSpace = true;
     }
 
@@ -27,29 +23,48 @@ public class LaserController : MonoBehaviour
 
     void UpdateLaser()
     {
-        // 1. 레이저의 시작점: 현재 Line 오브젝트의 위치
-        Vector3 startPos = transform.position;
-        line.SetPosition(0, startPos);
+        // 레이저의 지점들을 저장할 리스트
+        List<Vector3> laserPoints = new List<Vector3>();
 
-        // 2. 레이저의 방향: 현재 Line 오브젝트의 정면(Z축, 파란색 화살표)
-        Vector3 direction = transform.forward;
+        Vector3 currentPos = transform.position; // 시작 위치
+        Vector3 currentDir = transform.forward;  // 시작 방향
 
-        RaycastHit hit;
+        laserPoints.Add(currentPos);
 
-        // 3. Physics.Raycast를 이용한 Collider 충돌 판정
-        // (시작점, 방향, 충돌정보저장, 최대거리, 검사할 레이어)
-        if (Physics.Raycast(startPos, direction, out hit, maxDistance, hitLayers))
+        for (int i = 0; i < maxReflections; i++)
         {
-            // [충돌 발생] Collider와 부딪힌 정확한 지점(hit.point)까지만 레이저를 그립니다.
-            line.SetPosition(1, hit.point);
+            Ray ray = new Ray(currentPos, currentDir);
+            RaycastHit hit;
 
-            // 디버그용: 충돌한 물체 이름을 콘솔에 찍어보고 싶다면 주석 해제하세요.
-            // Debug.Log($"레이저가 {hit.collider.name}에 충돌함!");
+            if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
+            {
+                // 충돌 지점 추가
+                laserPoints.Add(hit.point);
+
+                // 만약 부딪힌 물체의 태그가 "Mirror"라면 정반사 수행
+                if (hit.collider.CompareTag("Mirror"))
+                {
+                    // Vector3.Reflect(입사 벡터, 법선 벡터)를 사용하여 반사 벡터 계산
+                    currentDir = Vector3.Reflect(currentDir, hit.normal);
+                    // 다음 레이의 시작점은 현재 충돌 지점 (살짝 띄워주어 자기 자신 충돌 방지)
+                    currentPos = hit.point + currentDir * 0.01f;
+                }
+                else
+                {
+                    // 거울이 아니면(벽 등) 여기서 레이저 종료
+                    break;
+                }
+            }
+            else
+            {
+                // 아무것도 부딪히지 않으면 최대 거리까지 선 긋고 종료
+                laserPoints.Add(currentPos + (currentDir * maxDistance));
+                break;
+            }
         }
-        else
-        {
-            // [충돌 없음] 아무것도 부딪히지 않으면 최대 거리만큼 무한히(?) 뻗어나갑니다.
-            line.SetPosition(1, startPos + (direction * maxDistance));
-        }
+
+        // LineRenderer에 계산된 모든 지점 적용
+        line.positionCount = laserPoints.Count;
+        line.SetPositions(laserPoints.ToArray());
     }
 }
